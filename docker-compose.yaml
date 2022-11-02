@@ -1,0 +1,45 @@
+
+version: "3"
+
+services:
+    app:
+        depends_on:
+            - mysql
+            - php
+            # - phpmyadmin
+        image: nginx:1
+        ports:
+            - 8080:80
+        volumes:
+            - ./app:/var/www/html
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+        working_dir: /var/www/html
+
+    mysql:
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            TZ: 'Asia/Tokyo'
+        image: mysql:8
+        restart: always
+        volumes:
+            - ./mysql:/var/lib/mysql
+            - ./sql:/sql
+
+    php:
+        build:
+            context: .
+            dockerfile: ./php/Dockerfile
+        # image: php:fpm
+        volumes:
+            - ./app:/var/www/html
+
+    phpmyadmin:
+        environment:
+            # - PMA_ARBITRARY=1
+            - PMA_HOST=mysql
+            - PMA_USER=root
+            - PMA_PASSWORD=password
+        image: phpmyadmin:5
+        ports:
+            - 8081:80
+        restart: always
