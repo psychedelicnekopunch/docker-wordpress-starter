@@ -35,7 +35,7 @@ http://localhost:8080/
 
 ### データベース情報
 
-user: root
+user: root  
 pass: password
 
 
