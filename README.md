@@ -54,17 +54,26 @@ http://localhost:8081/
 ### sql ファイルを使ってデータを反映させる
 
 ```bash
+# エクスポートした sql をコピー
 $ cp /path/to/your/dl.sql /path/to/your/project/sql/wordpress.sql
 $ cd /path/to/your/project
+
 $ docker-compose up
+
 # mysql のコンテナの NAMES をコピー
 $ docker ps
+
 # mysql のコンテナにログインする
+# docker-wordpress-starter-mysql-1 はコピーした mysql のコンテナの NAME
+# コンテナ名を固定にしていなかったら複数のコンテナを立ち上げると NAME が変わることがある
 $ docker exec -it docker-wordpress-starter-mysql-1 /bin/bash
+
 # mysql にログイン。パスワードは password
 $ mysql -u root -p
 Enter password:
+
 mysql> source /sql/wordpress.sql
+
 # ログアウト
 mysql> quit
 $ exit
