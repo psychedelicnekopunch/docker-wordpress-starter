@@ -52,3 +52,30 @@ http://localhost:8081/
 
 
 ### sql ファイルを使ってデータを反映させる
+
+```bash
+$ cp /path/to/your/dl.sql /path/to/your/project/sql/wordpress.sql
+$ cd /path/to/your/project
+$ docker-compose up
+# mysql のコンテナの NAMES をコピー
+$ docker ps
+# mysql のコンテナにログインする
+$ docker exec -it docker-wordpress-starter-mysql-1 /bin/bash
+# mysql にログイン。パスワードは password
+$ mysql -u root -p
+Enter password:
+mysql> source /sql/wordpress.sql
+# ログアウト
+mysql> quit
+$ exit
+```
+
+
+### sql/adjustment.sql
+
+ローカル環境で開発する場合に一旦下記の SQL を叩く
+
+```sql
+UPDATE `wp_options` SET `option_value` = 'http://localhost:8080' WHERE `wp_options`.`option_id` = 1;
+UPDATE `wp_options` SET `option_value` = 'http://localhost:8080' WHERE `wp_options`.`option_id` = 2;
+```
